@@ -1,7 +1,12 @@
 from flask import Flask, render_template
-from decouple import config
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY_FLASK")
+
 
 @app.route("/")
 def index():
