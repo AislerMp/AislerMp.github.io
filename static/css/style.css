@@ -1,0 +1,15 @@
+body{
+    text-decoration: solid;
+}
+
+.Container{
+    min-width: 50vh;
+    min-width: 50vh;
+}
+
+.SubContainer{
+    border: black solid 2px;
+    border-radius: 10px;
+    background-color: brown;
+
+}
