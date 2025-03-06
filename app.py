@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 import os
@@ -30,6 +30,12 @@ with app.app_context():
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/usuarios")
+def obtener_usuarios():
+    usuarios = User.query.all()  # Obtiene todos los usuarios
+    lista_usuarios = [{"id": u.id, "nombre": u.nombre} for u in usuarios]  # Convierte los objetos en diccionarios
+    return jsonify(lista_usuarios)  # Devuelve los usuarios en formato JSON
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
