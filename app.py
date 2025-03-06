@@ -8,7 +8,12 @@ load_dotenv()
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY_FLASK")
 
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL").replace("mysql://", "mysql+pymysql://")
+db_url = os.getenv("DATABASE_URL")
+
+if db_url is None:
+    raise ValueError("ERROR: La variable de entorno DATABASE_URL no está definida")
+
+app.config["SQLALCHEMY_DATABASE_URI"] = db_url.replace("mysql://", "mysql+pymysql://")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
