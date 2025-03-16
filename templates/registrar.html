@@ -6,25 +6,30 @@
     <title>Registrarse</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script>
+        function ValidarInputs(input) {
+            input.value = input.value.replace(/[^0-9]/g, '');
+        }
+    </script>
 </head>
 <body>
     <div class="wrapper">
-        <form action="{{ url_for('index') }}">
+        <form action="{{ url_for('registrar') }}" method="POST">
             <h1>Registro</h1>
             <div class="input-box">
                 <input type="text" name="usuario" placeholder="Usuario" required>
                 <i class="bx bxs-user"></i>
             </div>
             <div class="input-box">
-                <input type="text" name="cedula" placeholder="Cedula" required>
-                <i class="bx bxs-lock-alt"></i>
+                <input type="text" name="cedula" placeholder="Cedula" maxlength="9" inputmode="numeric" oninput="ValidarInputs(this)" required>
+                <i class='bx bx-id-card'></i>
             </div>
             <div class="input-box">
-                <input type="text" name="email" placeholder="Email" required>
-                <i class="bx bxs-lock-alt"></i>
+                <input type="text" name="email" placeholder="Email" inputmode="email" required>
+                <i class='bx bxl-gmail'></i>
             </div>
             <div class="input-box">
-                <input type="text" name="contrasena" placeholder="Contraseña" required>
+                <input type="password" name="contrasena" placeholder="Contraseña" required>
                 <i class="bx bxs-lock-alt"></i>
             </div>
 
@@ -35,6 +40,17 @@
             </div>
 
         </form>
+        <script>
+            document.querySelector("form").addEventListener("submit", function(event) {
+                let emailInput = document.querySelector('input[name="email"]').value;
+                let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+                if (!emailRegex.test(emailInput)) {
+                    alert("Por favor, introduce un correo electrónico válido.");
+                    event.preventDefault(); // Evita que el formulario se envíe
+                }
+            });
+        </script>
     </div>
 </body>
 </html>

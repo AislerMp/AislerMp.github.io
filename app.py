@@ -9,7 +9,6 @@ import os
 
 load_dotenv()
 
-
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY_FLASK")
 
@@ -30,7 +29,8 @@ login_manager.init_app(app)
 def load_user(user_id):
     return db.get_or_404(User, user_id)
 
-class User(db.Model):
+class User(UserMixin, db.Model):
+    __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
     cedula = db.Column(db.Integer, nullable=False, unique=True)
     email = db.Column(db.String(200), nullable=False, unique=True)
@@ -42,7 +42,6 @@ with app.app_context():
     db.create_all()
 
 
-
 @app.route("/", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -51,17 +50,19 @@ def login():
         cedula = request.form.get('cedula')
 
         cedula_user = db.session.execute(db.select(User).where(User.cedula == cedula)).scalar()
-        usuario = db.session.execute(db.select(User).where(User.usuario == usuario)).scalar()
+        usuario_obj = db.session.execute(db.select(User).where(User.usuario == usuario)).scalar()
 
         if not cedula_user:
             flash("Cedula no existente, por favor intentar de nuevo")
             return redirect(url_for('login'))  
-        elif not usuario:
+        elif not usuario_obj:
             flash("Nombre de Usuario no existe, por favor intentar de nuevo")
-        elif not check_password_hash(usuario.contrasena, contrasena):
+            return redirect(url_for('login'))
+        elif not check_password_hash(usuario_obj.contrasena, contrasena):
             flash("Contrasenaña no es correcta, por favor intentar de nuevo")
+            return redirect(url_for('login'))
         else:
-            login_user(usuario)
+            login_user(usuario_obj)
             return redirect(url_for('index'))
         
     return render_template("login.html")
@@ -74,14 +75,13 @@ def registrar():
         email_ = request.form.get('email')
         contrasena = request.form.get('contrasena')
 
-        usuario = db.session.execute(db.select(User).where(User.usuario == usuario)).scalar()
+        usuario = db.session.execute(db.select(User).where(User.usuario == usuario_)).scalar()
 
         if usuario:
             flash("Usuario ya existente")
-            redirect(url_for('login'))
+            return redirect(url_for('login'))
         
         hashed_password = generate_password_hash(contrasena, method="pbkdf2:sha256", salt_length=8)
-
 
         nuevo_usuario = User(
             usuario = usuario_,
@@ -92,6 +92,7 @@ def registrar():
 
         db.session.add(nuevo_usuario)
         db.session.commit()
+        
 
         login_user(nuevo_usuario)
         return redirect(url_for('login'))
@@ -102,6 +103,10 @@ def registrar():
 def index():
     return render_template("index.html")
 
-
+@app.route("/cerrar_sesion")
+def cerrar_sesion():
+    logout_user()
+    return redirect(url_for("login"))
+    
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
