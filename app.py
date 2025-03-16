@@ -79,7 +79,7 @@ def registrar():
 
         if usuario:
             flash("Usuario ya existente")
-            return redirect(url_for('login'))
+            return redirect(url_for('registrar'))
         
         hashed_password = generate_password_hash(contrasena, method="pbkdf2:sha256", salt_length=8)
 
