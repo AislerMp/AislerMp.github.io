@@ -52,12 +52,12 @@ def login():
         cedula_user = db.session.execute(db.select(User).where(User.cedula == cedula)).scalar()
         usuario_obj = db.session.execute(db.select(User).where(User.usuario == usuario)).scalar()
 
-        if not cedula_user:
-            flash("Cedula no existente, por favor intentar de nuevo")
-            return redirect(url_for('login'))  
-        elif not usuario_obj:
+        if not usuario_obj:
             flash("Nombre de Usuario no existe, por favor intentar de nuevo")
             return redirect(url_for('login'))
+        elif not cedula_user:
+            flash("Cedula no existente, por favor intentar de nuevo")
+            return redirect(url_for('login'))      
         elif not check_password_hash(usuario_obj.contrasena, contrasena):
             flash("Contrasenaña no es correcta, por favor intentar de nuevo")
             return redirect(url_for('login'))
