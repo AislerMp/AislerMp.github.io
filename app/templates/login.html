@@ -14,7 +14,7 @@
 </head>
 <body>
     <div class="wrapper">
-        <form action="{{ url_for('login') }}" method="POST">
+        <form action="{{ url_for('auth.login') }}" method="POST">
             <h1>Login</h1>
             {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -31,10 +31,6 @@
                 <input type="password" name="contrasena" placeholder="Contraseña" required>
                 <i class="bx bxs-lock-alt"></i>
             </div>
-            <div class="input-box">
-                <input type="text" name="cedula" placeholder="Cedula" maxlength="9" inputmode="numeric" oninput="ValidarInputs(this)" required>
-                <i class='bx bx-id-card'></i>
-            </div>
             <div class="remember">
                 <a href="#">Olvido su Contraseña?</a>
             </div>
@@ -42,7 +38,7 @@
             <button type="submit" class="btn">Login</button>
 
             <div class="register-link">
-                <p>No tienes una cuenta?<a href="{{ url_for('registrar') }}">Registrarse</a></p>
+                <p>No tienes una cuenta?<a href="{{ url_for('auth.registrar') }}">Registrarse</a></p>
             </div>
         </form>
     </div>

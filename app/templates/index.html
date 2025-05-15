@@ -1,0 +1,84 @@
+{% include "header.html" %}
+<section class="container" id="hero">
+    <h1>Compra Tiempos Seguramente <br>con Nosotros</h1>
+    <button>COMPRAR AQUI!</button>
+</section>
+<main id="main">
+    <div class="container" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        
+        <h2>Venta de Números</h2>
+        <form action="{{ url_for('main.registrar_tiempo') }}" method="POST">
+            <label id="label-sorteo" for="sorteo">Sorteo:</label>
+            <select id="sorteo" name="sorteo" required>
+                {% for sorteo in sorteos%}
+                    <option value="{{ sorteo.idLista }},{{ sorteo.Hora_Cierre }}">{{ sorteo.Nombre }} {{ sorteo.Hora_Cierre }}PM </option>
+                {% endfor %}
+            </select>
+            
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" name="fecha" required>
+            
+            <div id="numeros-container">
+                <h3>Ingresar Números</h3>
+
+                <div class="reventado_div">
+                    <label for="reventado">Numero Reventado?</label>
+                    <input type="checkbox" name="reventado" id="reventado">
+                </div>
+
+                <div class="numero-monto">
+                    <input class="numero" type="number" placeholder="Número" min="0" max="99" oninput="validarValores(this)">
+                    <input class="monto" type="number"  placeholder="Monto" oninput="validarValores(this)">
+                    <input class="reventado_monto" type="number"  placeholder="Monto del Reventado" oninput="validarValores(this)" disabled>
+                </div>
+            </div>
+            <button type="button" class="btn" onclick="agregarNumero()" id="agregar-btn">Agregar Número</button>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Monto</th>
+                        <th>Reventado</th>
+                        <th>Cancelar</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-body">
+                </tbody>
+            </table>
+            <h3>Total: ₡<span id="total">0</span></h3>
+            
+            <button type="submit" class="btn" onclick="verficar_numeros(event)">Confirmar Compra</button>
+            <h3>Información</h3>
+            <p style="color: whitesmoke;">Recuerda que el monto máximo por número es de ₡{{ limiteMax }}, del reventado {{ limite_Reventado }} y el número no debe ser mayor a 99.</p>
+            <input type="hidden" id="limiteMax" name="limiteMax" value="{{ limiteMax }}">
+            <input type="hidden" id="limite_Reventado" name="limite_Reventado" value="{{ limite_Reventado }}">
+        </form>
+        
+    </div>
+</main>
+<section id="Tabla-conteo-numeros">
+    <div class="container" style="background-color: transparent;">
+        <h2>Resumen de Ventas</h2>
+        <p>En esta sección se mostrará el resumen de las ventas realizadas.</p>
+        <div class="grid-container"> 
+        </div>
+    </div>
+</section>
+<script>
+    const facturasData = JSON.parse('{{ facturas | tojson | safe }}');
+</script>
+<!-- Mensajes flash como alertas -->
+{% with mensajes = get_flashed_messages() %}
+  {% if mensajes %}
+    {% for msg in mensajes %}
+    <script>
+        alert("{{ msg }}");
+    </script>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+<!-- Conexion con el archivo func.js -->
+<script src="{{ url_for('static', filename='js/optimized.js') }}"></script>
+{% include "footer.html" %}

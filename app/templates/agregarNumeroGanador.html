@@ -1,0 +1,42 @@
+{% include "header.html" %}
+
+<main id="main" style="margin-top: 50px;">
+    <div class="container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px 0px;">
+        <h2>Registrar Número Ganador</h2>
+        <form action="{{ url_for('main.registrarNumeroGanador') }}" method="POST">
+            <label id="label-sorteo" for="sorteo">Sorteo:</label>
+            <select id="sorteo" name="sorteo" required>
+                {% for sorteo in sorteos%}
+                    <option value="{{ sorteo.idLista }},{{ sorteo.Hora_Cierre }}">{{ sorteo.Nombre }} {{ sorteo.Hora_Cierre }}PM </option>
+                {% endfor %}
+            </select>
+            
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" name="fecha" required>
+            
+            <div class="containerRegistro">
+                <input type="number" id="numeroGanador" name="numeroGanador" placeholder="Número Ganador" oninput="validarValores()" required>
+                <div class="div_input">   
+                    <label for="reventado">Reventó?</label>
+                    <input type="checkbox" name="reventado" id="reventado">
+                </div>      
+            </div>
+            <input type="hidden" name="hiddenBoolean" id="hiddenBoolean" value="False">
+            <button type="submit" class="btn" onclick="confirmacion_numeroGanador(event)">Confirmar Numero</button>
+        </form>
+    </div>
+</main>
+
+
+{% with mensajes = get_flashed_messages() %}
+  {% if mensajes %}
+    {% for msg in mensajes %}
+    <script>
+        alert("{{ msg }}");
+    </script>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<script src="{{ url_for('static', filename='js/validGanador.js') }}"></script>
+{% include "footer.html" %}

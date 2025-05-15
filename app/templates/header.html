@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gestion de Tiempos{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="{{ url_for('main.index') }}"><p class="logo">Venta de Tiempos</p></a>
+            
+            <nav class="navbar">
+                {% if current_user.is_admin == True %}
+                <a href="{{ url_for('main.registrarNumeroGanador') }}">Registrar Numero Ganador</a>
+                {% endif %}
+                <a href="#">Verificar Numeros Vendidos</a>
+                <a href="{{ url_for('main.facturaGanadora') }}">Verificar Numero Ganador</a>
+                <a href="{{ url_for('auth.cerrar_sesion') }}">Cerrar Sesion</a>
+            </nav>
+        </div>
+    </header>

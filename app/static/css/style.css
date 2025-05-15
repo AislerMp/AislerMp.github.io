@@ -1,0 +1,462 @@
+*{
+    box-sizing: border-box;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+body{
+    font-family: Georgia, serif;
+    font-size: 100%;
+    margin: 0;
+    background-color: rgb(198, 207, 200);
+}
+
+h1{ font-size: 3.5em; }
+h2{ font-size: 2.7em; }
+h3{ font-size: 2em; }
+p{ font-size: 1.25em ;}
+
+button{
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 15px;
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    color: white;
+    background-color: #211F2D;
+}
+
+button:hover{
+    background-color: rgb(255, 255, 255);
+    color: #211F2D;
+}
+
+.container{
+    max-width: 1350px;
+    min-height: max-content;
+    margin: auto;
+}
+
+header{
+    background-color: #211F2D;
+}
+
+header .logo{
+    margin: 0;
+    color: white;
+    padding: 20px 0px;
+    font-size: 1.5em;
+}
+
+header .container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header .navbar{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+}
+
+header a{
+    padding: 5px 12px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    
+}
+
+header a:hover{
+    font-size: 1em;
+    font-weight: bold;
+}
+
+#hero{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    height: 70vh;
+    background-color: rgb(0, 0, 0);
+}
+
+#hero h1{
+    color: rgb(255, 255, 255);
+}
+
+#main .container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: auto;
+    background-color: #211F2D;
+}
+
+#main .container h2{
+    color: whitesmoke;
+    font-size: xx-large;
+}
+
+#main .container h3{
+    color: whitesmoke;
+    font-size: x-large
+}
+
+#main button{
+    font-size: 0.9em;
+    width: 100%;
+}
+
+#main form{
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+#main label, select, input {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+    text-align: start;
+}
+
+#main .container label{
+    color: whitesmoke;
+    font-size: x-large;
+}
+
+#main .container select, input {
+    color: #211F2D;
+    background-color: white;
+    border-radius: 10px;
+    border: 2px solid #211F2D;
+    font-size: medium;
+}
+
+.reventado_div{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0px;
+}
+
+#main .container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: 10px;
+}
+
+#main .container th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+#Tabla-conteo-numeros h2{
+    text-align: center;
+}
+
+#Tabla-conteo-numeros a{
+    text-decoration: none;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+}
+
+.cuadro {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.cuadro:hover {
+    transform: scale(1.05);
+    background-color: #e6f2ff;
+}
+
+
+footer .container{
+    height: 150px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.factura {
+    background-color: #8b8181;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', sans-serif;
+    color: #000;
+}
+
+.factura-header {
+    border-bottom: 2px dashed #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.factura-cliente, .factura-detalle, .factura-total {
+    margin-top: 20px;
+}
+
+.factura h4 {
+    margin-bottom: 5px;
+    color: #444;
+}
+
+.factura table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.factura table th, .factura table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+.factura-total h3 {
+    background-color: black;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    color: whitesmoke;
+    margin-top: 15px;
+}
+
+.ganador h3{
+    text-align: center;
+}
+
+.ganador #input-button{
+    background-color: #8b8181;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.ganador #input-button input{
+    width: 25%;
+    height: 100%;
+    margin: 0;
+}
+
+.container_aTag a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 15px;
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    color: white;
+    background-color: #211F2D;
+}
+
+.container_aTag a:hover{
+    background-color: rgb(255, 255, 255);
+    color: #211F2D;
+}
+
+.containerRegistro{
+    margin: 50px 15px; 
+    display: flex; 
+    flex-direction: column;
+}
+
+.containerRegistro .div_input{
+    margin-top: 30px;
+    display: flex; 
+    flex-direction: row;
+}
+
+.resultado-container {
+    background: #2e2e2e;
+    color: #f1f1f1;
+    border-radius: 16px;
+    padding: 20px;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.factura-ganador {
+    border: 2px dashed #ffc107;
+    padding: 15px;
+    border-radius: 12px;
+    background-color: #3a3a3a;
+    margin-bottom: 20px;
+}
+
+.gold {
+    color: #ffc107;
+    font-weight: bold;
+}
+
+.reventado .resaltado {
+    color: #00e676;
+    font-weight: bold;
+}
+
+.ganancia {
+    font-size: 1.1rem;
+    margin-top: 10px;
+    color: #eeeeee;
+}
+
+.factura-footer {
+    text-align: center;
+}
+
+.factura-footer h4 {
+    font-size: 1.2rem;
+    margin: 15px 0;
+}
+
+.factura-footer .si {
+    color: #00e676;
+    font-weight: bold;
+}
+
+.factura-footer .no {
+    color: #ff5252;
+    font-weight: bold;
+}
+
+.boton-container {
+    margin-top: 10px;
+}
+
+@media(min-width: 720px){
+    
+    header .container{
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    header .navbar{
+        flex-direction: row;
+        padding-bottom: 0;
+    }
+
+    #main button{
+        font-size: 1em;
+        width: 100%;
+    }
+
+    #main .container h2{
+        color: whitesmoke;
+        font-size: xx-large;
+    }
+    #main h3{
+        color: whitesmoke;
+        font-size: 2vw;
+    }
+    
+    #main form{
+        width: 49%;
+        margin: auto;
+        padding: 20px;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+        border: 2px solid rgba(255, 255, 255, .2);
+        border-radius: 10px;
+        margin-bottom: 30px;
+    }
+
+    #main label, select, input {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 8px;
+        text-align: start;
+    }
+
+    #main .container label{
+        color: whitesmoke;
+        font-size: 2vw;
+    }
+    
+    #main .container select, input {
+        font-size: 1.2vw;
+        color: #211F2D;
+        background-color: white;
+        border-radius: 10px;
+        border: 2px solid #211F2D;
+    }
+
+    #main .container table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background: white;
+        border-radius: 10px;
+    }
+    #main .container th, td {
+        padding: 10px;
+        text-align: center;
+    }
+}
+
+.containerRegistro .div_input{
+    margin-top: 30px;
+    display: flex; 
+    flex-direction: row;
+}
+
+.containerRegistro .div_input label{
+    margin-left: 70px;
+    margin-bottom: 0px;
+}
+
+/* Imprimir solamente la factura */
+@media print {
+    header, footer, #hero, #main .container h2, #main .container h3, #main .container form, #imprimir{
+        display: none;
+    }
+    .factura {
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+    }
+}

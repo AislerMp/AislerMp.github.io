@@ -1,0 +1,142 @@
+{% include "header.html" %}
+
+<div class="container">
+    <div class="ganador">
+        <h3>Ingrese numero de la factura</h3>
+        <form action="{{ url_for('main.facturaGanadora') }}" method="post">
+            <div id="input-button">
+                <input name="idFactura" id="idFactura" type="number" required>
+                <button type="submit">Buscar</button>
+            </div>
+        </form>
+
+        {% if factura %}
+        <h2 class="factura-h2" style="text-align: center;">🧾 Factura de Compra</h2>
+        <div class="factura" id="factura-visual">
+            <!-- Encabezado -->
+            <div class="factura-header">
+                <h3>Lotería Virtual CR</h3>
+                <p><strong>Factura Nº:</strong> <span id="factura-id">{{ factura.idFactura }}</span></p>
+                <p><strong>Usuario:</strong> <span id="factura-usuario">{{ factura.Usuario }}</span></p>
+                <p><strong>Fecha Actual:</strong> <span id="factura-actual">{{ factura.Fecha_Actual }}</span></p>
+            </div>
+
+            <!-- Datos del Cliente -->
+            <div class="factura-cliente">
+                <h4>🧍 Datos de la compra</h4>  
+                <p><strong>Sorteo:</strong> <span id="factura-sorteo">{{ factura.sorteo_nombre }}</span></p>
+                <p><strong>Fecha del Sorteo:</strong> <span id="factura-vendida">{{ factura.Fecha_Vendida }}</span></p>
+            </div>
+
+            <!-- Detalle de Números -->
+            <div class="factura-detalle">
+                <h4>🎯 Detalle de Números</h4>
+                <div style="display: flex; justify-content: space-between; ">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Monto (₡)</th>
+                                <th>Número</th>
+                            </tr>
+                        </thead>
+                        <tbody id="factura-numeros">
+                            <!-- Aquí se insertan los números -->
+                            {% for monto, numeros in factura.ResumenAgrupado.items() %}
+                            <tr>
+                                <td>{{ monto }}</td>
+                                <td>{{ numeros | join(', ') }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Reventado (₡)</th>
+                                <th>Número</th>
+                            </tr>
+                        </thead>
+                        <tbody id="factura-numeros">
+                            <!-- Aquí se insertan los números -->
+                            {% if factura.ResumenReventado%}
+                            {% for monto, numeros in factura.ResumenReventado.items() %}
+                            <tr>
+                                <td>{{ monto }}</td>
+                                <td>{{ numeros | join(', ') }}</td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td>(₡) 0</td>
+                                <td>Ninguno</td>
+                            </tr>
+                            {% endif %}
+                            
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+
+            <!-- Total -->
+            <div class="factura-total">
+                <h3>Total Pagado: ₡<span id="factura-total">{{ factura.Monto }}</span></h3>
+            </div>
+            <div class="resultado-container">
+                <h3>🎉 Resultado del Sorteo</h3>
+                {% if ganador != '' %}
+                <div class="factura-ganador">
+                    <h3>🎉 El Número Ganador ha sido el <span class="gold">{{ ganador.Numero_Ganador }}</span></h3>
+                    <h4 class="reventado">
+                        {% if ganador.Reventado %}
+                            Este número ha sido <span class="resaltado">Reventado</span>
+                        {% else %}
+                            Este número <span class="resaltado">No fue Reventado</span>
+                        {% endif %}
+                    </h4>
+
+                    {% for fac in factura.Numeros %}
+                        {% if fac.numero == ganador.Numero_Ganador %}
+                            <p class="ganancia">Usted ha ganado <span class="gold">₡{{ fac.monto * pagoxNumero }}</span></p>
+                        {% endif %}
+                        {% if ganador.Reventado and fac.reventado != 0 %}
+                            <p class="ganancia">🎯 ¡Reventado! Ganancia extra: <span class="gold">₡{{ fac.reventado * pagoxReventado }}</span></p>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="factura-ganador">
+                    <h3>El Número Ganador no ha sido definido</h3>
+                </div>
+                {% endif %}
+
+                <div class="factura-footer">
+                    <h4>¿Está cobrado?: 
+                        <span class="{{ 'no' if not factura.is_paid else 'si' }}">
+                            {{ 'No' if not factura.is_paid else 'Sí' }}
+                        </span>
+                    </h4>
+
+                    {% if not factura.is_paid %}
+                    <div class="container_aTag">
+                        <a href="{{ url_for('main.pagarFactura', idFactura=factura.idFactura) }}" class="boton-pagar">Pagar Factura</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% with mensajes = get_flashed_messages() %}
+  {% if mensajes %}
+    {% for msg in mensajes %}
+    <script>
+        alert("{{ msg }}");
+    </script>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+{% include "footer.html" %}

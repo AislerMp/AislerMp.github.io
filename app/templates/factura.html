@@ -1,0 +1,79 @@
+{% include "header.html" %}
+<h2 class="factura-h2" style="text-align: center;">🧾 Factura de Compra</h2>
+<div class="factura" id="factura-visual">
+    <!-- Encabezado -->
+    <div class="factura-header">
+        <h3>Lotería Virtual CR</h3>
+        <p><strong>Factura Nº:</strong> <span id="factura-id">{{ factura.idFactura }}</span></p>
+        <p><strong>Usuario:</strong> <span id="factura-usuario">{{ factura.Usuario }}</span></p>
+        <p><strong>Fecha Actual:</strong> <span id="factura-actual">{{ factura.Fecha_Actual }}</span></p>
+    </div>
+
+    <!-- Datos del Cliente -->
+    <div class="factura-cliente">
+        <h4>🧍 Datos de la compra</h4>  
+        <p><strong>Sorteo:</strong> <span id="factura-sorteo">{{ factura.sorteo_nombre }}</span></p>
+        <p><strong>Fecha del Sorteo:</strong> <span id="factura-vendida">{{ factura.Fecha_Vendida }}</span></p>
+    </div>
+
+    <!-- Detalle de Números -->
+    <div class="factura-detalle">
+        <h4>🎯 Detalle de Números</h4>
+        <div style="display: flex; justify-content: space-between; ">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Monto (₡)</th>
+                        <th>Número</th>
+                    </tr>
+                </thead>
+                <tbody id="factura-numeros">
+                    <!-- Aquí se insertan los números -->
+                    {% for monto, numeros in factura.ResumenAgrupado.items() %}
+                    <tr>
+                        <td>{{ monto }}</td>
+                        <td>{{ numeros | join(', ') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Reventado (₡)</th>
+                        <th>Número</th>
+                    </tr>
+                </thead>
+                <tbody id="factura-numeros">
+                    <!-- Aquí se insertan los números -->
+                    {% if factura.ResumenReventado%}
+                    {% for monto, numeros in factura.ResumenReventado.items() %}
+                    <tr>
+                        <td>{{ monto }}</td>
+                        <td>{{ numeros | join(', ') }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td>(₡) 0</td>
+                        <td>Ninguno</td>
+                    </tr>
+                    {% endif %}
+                    
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+
+    <!-- Total -->
+    <div class="factura-total">
+        <h3>Total Pagado: ₡<span id="factura-total">{{ factura.Monto }}</span></h3>
+    </div>
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+    <button onclick="window.print()" id="imprimir">🖨️ Imprimir Factura</button>
+</div>
+
+{% include "footer.html" %}
