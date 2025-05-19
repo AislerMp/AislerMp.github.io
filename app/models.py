@@ -1,9 +1,18 @@
 # app/models.py
 from app import db, login_manager
-from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin, login_required, current_user
 from datetime import datetime
+from functools import wraps
 import json
+from flask import abort
+
+def admin_only(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if not current_user.is_admin:
+            abort(403)  # Forbidden
+        return func(*args, **kwargs)
+    return wrapper
 
 class Usuario(UserMixin, db.Model):
     __tablename__ = 'Usuario'
