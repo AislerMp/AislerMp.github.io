@@ -1,0 +1,49 @@
+{% include 'header.html' %}
+
+<div class="container">
+    <div class="container-update">
+        <h3>Actualizar Validaciones</h3>
+
+    <!-- Mostrar datos actuales -->
+    <div class="container-validaciones">
+        <div class="card-validacion">
+            <h4>Valores Actuales</h4>
+            <ul>
+                <li><strong>Límite Máximo:</strong> ₡{{ limiteMax }}</li>
+                <li><strong>Límite Máx. Reventado:</strong> ₡{{ limiteReventadoMax }}</li>
+                <li><strong>Pago por Número:</strong> *{{ pagoxNumero }}</li>
+                <li><strong>Pago por Reventado:</strong> *{{ pagoxReventado }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Formulario -->
+    <form action="{{ url_for('main.ActualizarValidaciones') }}" method="post" class="form-validaciones">
+        <label for="limiteMax">Límite Máximo</label>
+        <input type="text" name="limiteMax" id="limiteMax" class="inputValidations" value="{{ limiteMax }}" required>
+
+        <label for="limiteReventadoMax">Límite Máximo de Reventado</label>
+        <input type="text" name="limiteReventadoMax" id="limiteReventadoMax" class="inputValidations" value="{{ limiteReventadoMax }}" required>
+
+        <label for="pagoxNumero">Pago por Número</label>
+        <input type="text" name="pagoxNumero" id="pagoxNumero" class="inputValidations" value="{{ pagoxNumero }}" required>
+
+        <label for="pagoxReventado">Pago por Reventado</label>
+        <input type="text" name="pagoxReventado" id="pagoxReventado" class="inputValidations" value="{{ pagoxReventado }}" required>
+
+        <button type="submit" class="btn-actualizar">Actualizar Validaciones</button>
+    </form>
+    </div>
+</div>
+
+{% with mensajes = get_flashed_messages() %}
+  {% if mensajes %}
+    {% for msg in mensajes %}
+    <script>
+        alert("{{ msg }}");
+    </script>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+{% include 'footer.html' %}

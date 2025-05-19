@@ -1,8 +1,6 @@
 # app/routes/auth.py
 from flask import Blueprint, render_template, redirect, request, url_for, flash, jsonify
 from flask_login import login_user, logout_user
-from werkzeug.security import check_password_hash, generate_password_hash
-from app.models import Usuario
 from app import db
 from app.controllers.auth_controller import login_route, registro_route
 

@@ -1,5 +1,4 @@
 from app.models import Factura, Listas, Usuario, Resultados, Limite
-from werkzeug.security import check_password_hash, generate_password_hash
 from app import db
 from datetime import datetime
 from app.utils import consultar_facturas, agregar_credenciales_fact
@@ -73,6 +72,17 @@ def registroRoute(usuario, fecha, sorteo_id, sorteo_hora_Cierre, numero, montos,
         db.session.close()
         return(1, msj, idFactura)
 
+def ver_factura_Route(factura_id):
+    try:
+        factura_obj = db.get_or_404(Factura, factura_id)
+        factura_dicc = factura_obj.to_dict()
+    except Exception as e:
+        db.session.rollback()
+        msj = (f"Error: {e}")
+        return (-1, msj)
+    
+    factura = agregar_credenciales_fact(factura_dicc)
+    return (1, factura)
 
 def facturaGanadora_Route(idFactura, usuario):
     try:
@@ -96,7 +106,20 @@ def facturaGanadora_Route(idFactura, usuario):
     factura = agregar_credenciales_fact(factura_dicc)
     return (1, factura, ganador, pagoxNumero, pagoxReventado)
 
-
+def pagarFactura_Route(idFactura):
+    try:
+        factura_obj = Factura.query.filter_by(idFactura=idFactura).first()
+        factura_obj.is_paid = True
+        db.session.commit()
+        msj = "Factura pagada correctamente."
+    except Exception as e:
+        db.session.rollback()
+        msj = f"Error al pagar la factura: {e}"
+        return (-1, msj)
+    finally:
+        db.session.close()
+        return (1, msj)
+    
 def registrarNumeroGanador_Route(fecha, sorteo_id, numero_ganador, is_reventado):
     resultado = Resultados.query.filter_by(idLista=sorteo_id, Fecha=fecha).first()
     if resultado:
@@ -122,6 +145,28 @@ def registrarNumeroGanador_Route(fecha, sorteo_id, numero_ganador, is_reventado)
     except Exception as e:
         db.session.rollback()
         msj = f"Error al registrar el número ganador: {e}"
+        return (-1, msj)
+    finally:
+        db.session.close()
+        return (1, msj)
+    
+def ActualizarValidaciones_Route(limiteMax, limiteReventadoMax, pagoxNumero, pagoxReventado):
+    try:
+        limite = Limite.query.first()
+        if not limite:
+            msj = "No se encontró el límite en la base de datos."
+            return (-1, msj)
+        
+        limite.Monto_Limite = limiteMax
+        limite.Monto_Limite_Reventado = limiteReventadoMax
+        limite.PagoxNumero = pagoxNumero
+        limite.PagoxReventado = pagoxReventado
+
+        db.session.commit()
+        msj = "Validaciones actualizadas correctamente."
+    except Exception as e:
+        db.session.rollback()
+        msj = f"Error al actualizar las validaciones: {e}"
         return (-1, msj)
     finally:
         db.session.close()

@@ -14,6 +14,7 @@
             <nav class="navbar">
                 {% if current_user.is_admin == True %}
                 <a href="{{ url_for('main.registrarNumeroGanador') }}">Registrar Numero Ganador</a>
+                <a href="{{ url_for('main.ActualizarValidaciones') }}">Actualizar tabla de Validaciones</a>
                 {% endif %}
                 <a href="#">Verificar Numeros Vendidos</a>
                 <a href="{{ url_for('main.facturaGanadora') }}">Verificar Numero Ganador</a>

@@ -84,6 +84,7 @@
             </div>
             <div class="resultado-container">
                 <h3>🎉 Resultado del Sorteo</h3>
+                {% set ns = namespace(ganador_en_factura=false) %}
                 {% if ganador != '' %}
                 <div class="factura-ganador">
                     <h3>🎉 El Número Ganador ha sido el <span class="gold">{{ ganador.Numero_Ganador }}</span></h3>
@@ -94,15 +95,19 @@
                             Este número <span class="resaltado">No fue Reventado</span>
                         {% endif %}
                     </h4>
-
+                    
                     {% for fac in factura.Numeros %}
                         {% if fac.numero == ganador.Numero_Ganador %}
+                            {% set ns.ganador_en_factura = true %}
                             <p class="ganancia">Usted ha ganado <span class="gold">₡{{ fac.monto * pagoxNumero }}</span></p>
-                        {% endif %}
-                        {% if ganador.Reventado and fac.reventado != 0 %}
-                            <p class="ganancia">🎯 ¡Reventado! Ganancia extra: <span class="gold">₡{{ fac.reventado * pagoxReventado }}</span></p>
+                            {% if ganador.Reventado and fac.reventado != 0 %}
+                                <p class="ganancia">🎯 ¡Reventado! Ganancia extra: <span class="gold">₡{{ fac.reventado * pagoxReventado }}</span></p>
+                            {% endif %}
                         {% endif %}
                     {% endfor %}
+                    {% if not ns.ganador_en_factura %}
+                        <h3>Esta factura no contiene el número <span class="gold">ganador</span></h3>
+                    {% endif %}
                 </div>
                 {% else %}
                 <div class="factura-ganador">
@@ -116,11 +121,10 @@
                             {{ 'No' if not factura.is_paid else 'Sí' }}
                         </span>
                     </h4>
-
-                    {% if not factura.is_paid %}
-                    <div class="container_aTag">
-                        <a href="{{ url_for('main.pagarFactura', idFactura=factura.idFactura) }}" class="boton-pagar">Pagar Factura</a>
-                    </div>
+                    {% if not factura.is_paid and ns.ganador_en_factura %}
+                        <div class="container_aTag">
+                            <a href="{{ url_for('main.pagarFactura', idFactura=factura.idFactura) }}" class="boton-pagar">Pagar Factura</a>
+                        </div>  
                     {% endif %}
                 </div>
             </div>
