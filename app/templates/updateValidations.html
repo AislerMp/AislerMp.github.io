@@ -19,17 +19,24 @@
 
     <!-- Formulario -->
     <form action="{{ url_for('main.ActualizarValidaciones') }}" method="post" class="form-validaciones">
+        <label id="label-sorteo" for="sorteo">Sorteo:</label>
+            <select class="inputValidations" id="sorteo" name="sorteo" required>
+                {% for sorteo in sorteos%}
+                    <option value="{{ sorteo.idLista }},{{ sorteo.Hora_Cierre }}">{{ sorteo.Nombre }} {{ sorteo.Hora_Cierre }}PM </option>
+                {% endfor %}
+            </select>
+            
         <label for="limiteMax">Límite Máximo</label>
-        <input type="text" name="limiteMax" id="limiteMax" class="inputValidations" value="{{ limiteMax }}" required>
+        <input type="number" name="limiteMax" id="limiteMax" class="inputValidations" value="{{ limiteMax }}" oninput="validateNumberInput(event)" required>
 
         <label for="limiteReventadoMax">Límite Máximo de Reventado</label>
-        <input type="text" name="limiteReventadoMax" id="limiteReventadoMax" class="inputValidations" value="{{ limiteReventadoMax }}" required>
+        <input type="number" name="limiteReventadoMax" id="limiteReventadoMax" class="inputValidations" value="{{ limiteReventadoMax }}" oninput="validateNumberInput(event)" required>
 
         <label for="pagoxNumero">Pago por Número</label>
-        <input type="text" name="pagoxNumero" id="pagoxNumero" class="inputValidations" value="{{ pagoxNumero }}" required>
+        <input type="number" name="pagoxNumero" id="pagoxNumero" class="inputValidations" value="{{ pagoxNumero }}" oninput="validateNumberInput(event)" required>
 
         <label for="pagoxReventado">Pago por Reventado</label>
-        <input type="text" name="pagoxReventado" id="pagoxReventado" class="inputValidations" value="{{ pagoxReventado }}" required>
+        <input type="number" name="pagoxReventado" id="pagoxReventado" class="inputValidations" value="{{ pagoxReventado }}" oninput="validateNumberInput(event)" required>
 
         <button type="submit" class="btn-actualizar">Actualizar Validaciones</button>
     </form>
@@ -46,4 +53,16 @@
   {% endif %}
 {% endwith %}
 
+<script>
+    function validateNumberInput(event) {
+        const input = event.target;
+        const value = input.value;
+
+        // Verificar si el valor es un número válido
+        if (isNaN(value) || value < 0) {
+            alert("Por favor, ingrese un número válido.");
+            input.value = ""; // Limpiar el campo
+        }
+    }
+</script>
 {% include 'footer.html' %}

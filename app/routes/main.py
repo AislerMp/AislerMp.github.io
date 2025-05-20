@@ -98,6 +98,7 @@ def registrarNumeroGanador():
 @admin_only
 def ActualizarValidaciones():
     try:
+        sorteos = Listas.allSorteos()
         limiteMax, limiteReventadoMax, pagoxNumero, pagoxReventado = Limite.getMonto_Limite(), Limite.getMonto_Limite_Reventado(), Limite.getPagoxNumero(), Limite.getPagoxReventado()
     except Exception as e:
         db.session.rollback()
@@ -120,4 +121,4 @@ def ActualizarValidaciones():
             return redirect(url_for('main.index'))
         
         return redirect(url_for('main.ActualizarValidaciones'))
-    return render_template("updateValidations.html", limiteMax=limiteMax, limiteReventadoMax=limiteReventadoMax, pagoxNumero=pagoxNumero, pagoxReventado=pagoxReventado)
+    return render_template("updateValidations.html", sorteos=sorteos, limiteMax=limiteMax, limiteReventadoMax=limiteReventadoMax, pagoxNumero=pagoxNumero, pagoxReventado=pagoxReventado)
